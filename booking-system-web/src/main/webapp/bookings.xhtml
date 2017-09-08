@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>JSF Spring Hibernate Integration</title>
+</h:head>
+
+<h:body>
+
+    <ui:composition template="/template/commonLayout.xhtml">
+        <ui:define name="content">
+
+            <h1>Reserve an item</h1>
+            <h:form id="bookingTableForm">
+                <table>
+
+                    <tr>
+                        <td><label>Item to reserve</label></td>
+                        <td>
+                            <p:selectOneMenu id="itemSelect" value="#{bookingController.selectedItemId}">
+                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                <f:selectItems value="#{itemController.bookableItems}" var="item"
+                                               itemLabel="#{item.name}" itemValue="#{item.id}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Your mame</label></td>
+                        <td><p:inputText id="name" value="#{bookingController.booking.name}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Booking time from</label></td>
+                        <td><p:calendar id="startTime" value="#{bookingController.startTime}"
+                                        pattern="yyyy-MM-dd HH:mm"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Booking time to</label></td>
+                        <td><p:calendar id="endTime" value="#{bookingController.endTime}"
+                                        pattern="yyyy-MM-dd HH:mm"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><p:commandButton action="#{bookingController.addBooking()}"
+                                             update="bookingTableForm"
+                                             value="Add booking"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <h3>Bookings</h3>
+                <hr/>
+                <p:repeat value="#{itemController.bookableItems}" var="item" offset=""
+                          size="#{itemController.bookableItems.size()}" step="1" varStatus="">
+                    <p:outputPanel>
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputText value="#{item.name}" style="font-weight: bold"/>
+                            <p:repeat value="#{bookingController.getBookingsByItemId(item.id)}" var="booking" offset=""
+                                      size="#{bookingController.getBookingsByItemId(item.id).size()}" step="1"
+                                      varStatus="">
+                                <p:outputPanel>
+                                    <h:panelGrid columns="5" cellpadding="3">
+                                        <p:commandButton icon="ui-icon-close" title="Remove booking"
+                                                         actionListener="#{bookingController.removeBooking(booking)}" update="bookingTableForm">
+                                            <p:confirm message="Are you sure?" icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                        <h:outputText value="#{booking.startTime}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                                        </h:outputText>
+                                        <h:outputText value="-"/>
+                                        <h:outputText value="#{booking.endTime}" style="font-weight: bold">
+                                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                                        </h:outputText>
+                                        <h:outputText value="(#{booking.name})"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </p:repeat>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                    <hr/>
+                </p:repeat>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</h:body>
+</html>

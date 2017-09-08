@@ -1,0 +1,54 @@
+#mainBody {
+    background-color: rgb(229, 238, 255);
+    margin: auto;
+}
+
+#page {
+    margin: auto;
+}
+
+#header {
+    border-bottom: 1px solid #000;
+    background-color: rgb(208, 219, 241);
+
+}
+
+#content {
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#footer {
+    background-color: rgb(208, 219, 241);
+    border-top: 1px solid #000;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.layout-content {
+    width:600px;
+    margin: auto;
+}
+
+.menuItem {
+    background-color: rgb(208, 219, 241);
+    color: black;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: black;
+}
+
+.menuItem:hover {
+    background-color: #bacae8;
+}
+
+.menuItem:active {
+    background-color: #bacae8;
+}
+
+.ui-datatable table {
+    width: auto !important;
+}
