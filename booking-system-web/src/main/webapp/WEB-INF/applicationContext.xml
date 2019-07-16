@@ -36,6 +36,7 @@
     </beans:bean>
 
     <!-- Web Service-->
+    <!--suppress UnparsedCustomBeanInspection -->
     <wss:binding url="/bookingWebService">
         <wss:service>
             <ws:service bean="#bookingWebServiceImpl"/>
@@ -70,7 +71,7 @@
         </beans:property>
     </beans:bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven/>
 
     <beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
